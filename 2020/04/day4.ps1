@@ -36,3 +36,38 @@ function Import-Passports {
             }
         }
 }
+
+$PassportFields = @(
+    [PSCustomObject]@{
+        Key = 'byr'
+        Required = $true
+    },
+    [PSCustomObject]@{
+        Key = 'iyr'
+        Required = $true
+    },
+    [PSCustomObject]@{
+        Key = 'eyr'
+        Required = $true
+    },
+    [PSCustomObject]@{
+        Key = 'hgt'
+        Required = $true
+    },
+    [PSCustomObject]@{
+        Key = 'hcl'
+        Required = $true
+    },
+    [PSCustomObject]@{
+        Key = 'ecl'
+        Required = $true
+    },
+    [PSCustomObject]@{
+        Key = 'pid'
+        Required = $true
+    },
+    [PSCustomObject]@{
+        Key = 'cid'
+        Required = $false
+    }
+)
