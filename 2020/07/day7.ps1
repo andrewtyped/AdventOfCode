@@ -1,0 +1,1 @@
+$BaseRegex = '^(\w+ \w+) bags contain (((\d+) (\w+ \w+) bag(s?)(, |\.))+|no other bags\.)$'
