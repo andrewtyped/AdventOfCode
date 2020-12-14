@@ -27,7 +27,7 @@ function Get-Departure {
         $TravelState
     )
 
-    $CurrentTime = [long]99999999999930
+    $CurrentTime = [long]0
 
     $BusSchedules = $TravelState.BusSchedules | Sort-Object BusId -Descending
 
@@ -37,10 +37,13 @@ function Get-Departure {
         $BusSchedule.Offset -= $RelativeOffset
     }
 
-    $MaxOffset = ($BusSchedules.Offset | Measure-Object -Maximum).Maximum
+    $MaxOffset = ($BusSchedules | Select-Object -ExpandProperty Offset | Measure-Object -Minimum).Minimum
 
-    while($true) {
-        $BusIds = for($i = 0; $i -lt $BusSchedules.Length; $i++) {
+    $BusIdCount = 2
+    $TimeSkip = $BusSchedules[0].BusId
+
+    while($BusIdCount -le $BusSchedules.Length) {
+        $BusIds = for($i = 0; $i -lt $BusIdCount; $i++) {
             $Bus = $BusSchedules[$i]
 
             if(($CurrentTime + $Bus.Offset) % $Bus.BusId -ne 0) {
@@ -55,10 +58,17 @@ function Get-Departure {
         }
 
         if($BusIds.Length -eq $TravelState.BusSchedules.Length) {
+            Write-Verbose "Bus ID length matches bus schedule length"
             break
         }
+        
+        if($BusIds.Length -eq $BusIdCount) {
+            $TimeSkip = $TimeSkip * $BusSchedules[$BusIdCount - 1].BusId
+            $BusIdCount++
+            Write-Verbose "New time skip is $TimeSkip. New BusId count is $BusIdCount"
+        }
 
-        $CurrentTime += $BusSchedules[0].BusId
+        $CurrentTime += $TimeSkip
     }
 
     [PSCustomObject]@{
