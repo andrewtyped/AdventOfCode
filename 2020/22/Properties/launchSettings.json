@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "day22": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\dev\\andrewtyped\\AdventOfCode\\2020\\22\\main.txt"
+    }
+  }
+}
