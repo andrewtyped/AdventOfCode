@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "day24": {
+      "commandName": "Project",
+      "commandLineArgs": "..\\..\\..\\main.txt"
+    }
+  }
+}
